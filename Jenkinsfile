@@ -2,9 +2,10 @@ pipeline {
     agent any
 
     environment {
-        AWS_CREDENTIALS = credentials('aws-credentials') // Single credentials ID
+        AWS_CREDENTIALS = credentials('aws-credentials') // Ensure this exists in Jenkins
         S3_BUCKET = 'pramod-lambda-deployments'
         FUNCTION_NAME = 'myLambdaFunction'
+        AWS_REGION = 'ap-south-1'  // ✅ Set your region explicitly
     }
 
     stages {
@@ -25,7 +26,7 @@ pipeline {
         stage('Upload to S3') {
             steps {
                 sh '''
-                aws s3 cp lambda-package.zip s3://$S3_BUCKET/lambda-package.zip
+                aws s3 cp lambda-package.zip s3://$S3_BUCKET/lambda-package.zip --region $AWS_REGION
                 '''
             }
         }
@@ -36,7 +37,8 @@ pipeline {
                 aws lambda update-function-code \
                 --function-name $FUNCTION_NAME \
                 --s3-bucket $S3_BUCKET \
-                --s3-key lambda-package.zip
+                --s3-key lambda-package.zip \
+                --region $AWS_REGION
                 '''
             }
         }
