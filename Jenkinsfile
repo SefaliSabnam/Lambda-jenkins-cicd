@@ -14,35 +14,17 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies') {
-            steps {
-                sh '''#!/bin/bash
-                set -e  # Exit on error
-                mkdir -p package
-                if [ -f requirements.txt ]; then
-                    pip install -r requirements.txt -t package/
-                else
-                    echo "Error: requirements.txt not found!"
-                    exit 1
-                fi
-                '''
-            }
-        }
-
         stage('Package Lambda') {
             steps {
-                sh '''#!/bin/bash
-                set -e  # Exit on error
-                cd package && zip -r ../lambda-package.zip . || exit 1
-                cd .. && zip -g lambda-package.zip lambda_function.py || exit 1
+                sh '''
+                zip lambda-package.zip lambda_function.py
                 '''
             }
         }
 
         stage('Upload to S3') {
             steps {
-                sh '''#!/bin/bash
-                set -e  # Exit on error
+                sh '''
                 aws s3 cp lambda-package.zip s3://$S3_BUCKET/lambda-package.zip
                 '''
             }
@@ -50,8 +32,7 @@ pipeline {
 
         stage('Deploy to Lambda') {
             steps {
-                sh '''#!/bin/bash
-                set -e  # Exit on error
+                sh '''
                 aws lambda update-function-code \
                 --function-name $FUNCTION_NAME \
                 --s3-bucket $S3_BUCKET \
@@ -64,7 +45,6 @@ pipeline {
     post {
         always {
             sh 'rm -f lambda-package.zip'
-            sh 'rm -rf package'
         }
         success {
             echo '✅ Deployment Successful!'
