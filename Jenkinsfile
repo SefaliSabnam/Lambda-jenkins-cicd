@@ -3,15 +3,15 @@ pipeline {
 
     environment {
         AWS_CREDENTIALS = credentials('aws-credentials') // Ensure this exists in Jenkins
-        S3_BUCKET = 'pramod-lambda-deployments'
-        FUNCTION_NAME = 'myLambdaFunction'
+        S3_BUCKET = 'lambda-deployment-cicd'
+        FUNCTION_NAME = 'my-lambda-cicd'
         AWS_REGION = 'ap-south-1'  // ✅ Set your region explicitly
     }
 
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'master', url: 'https://github.com/PramodaHS/Lambda-jenkins-cicd.git'
+                git branch: 'master', url: 'https://github.com/SefaliSabnam/Lambda-jenkins-cicd.git'
             }
         }
 
