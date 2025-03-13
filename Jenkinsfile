@@ -13,7 +13,7 @@ pipeline {
                 script {
                     // ✅ Added credentialsId for GitHub authentication
                     checkout([$class: 'GitSCM',
-                              branches: [[name: '*/UA-0209']],
+                              branches: [[name: '*/master']],
                               userRemoteConfigs: [[url: 'https://github.com/SefaliSabnam/Lambda-jenkins-cicd.git',
                                                    credentialsId: 'github-credentials']]
                     ])
