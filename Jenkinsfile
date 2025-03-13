@@ -4,7 +4,7 @@ pipeline {
     environment {
         S3_BUCKET = 'lambda-deployment-cicd'
         FUNCTION_NAME = 'my-lambda-cicd'
-        AWS_REGION = 'ap-south-1'  // ✅ Set your region explicitly
+        AWS_REGION = 'ap-south-1'  //  Set your region explicitly
     }
 
     stages {
