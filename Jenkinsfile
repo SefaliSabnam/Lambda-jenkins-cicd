@@ -11,7 +11,7 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 script {
-                    // ✅ Added credentialsId for GitHub authentication
+                    //  Added credentialsId for GitHub authentication
                     checkout([$class: 'GitSCM',
                               branches: [[name: '*/UA-0209']],
                               userRemoteConfigs: [[url: 'https://github.com/SefaliSabnam/Lambda-jenkins-cicd.git',
@@ -75,10 +75,10 @@ pipeline {
             }
         }
         success {
-            echo '✅ Deployment Successful!'
+            echo ' Deployment Successful!'
         }
         failure {
-            echo '❌ Deployment Failed! Check logs.'
+            echo ' Deployment Failed! Check logs.'
         }
     }
 }
